@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>점심 식사 안내 | 제8회 창의융합교육축제</title>
+<meta name="description" content="제8회 창의융합교육축제 부스 운영 지도교사·학생 점심 안내. 우리 부스가 몇 부에 어디서 먹는지 확인하세요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="제8회 창의융합교육축제 점심 식사 안내">
+<meta property="og:description" content="우리 부스가 몇 부에 어디서 먹는지 확인하세요. 점심은 각자 준비, 배달음식은 건물 밖에서, 잔반은 남기지 않아요.">
+<meta name="theme-color" content="#0E7C7B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0E7C7B;--teal-d:#0A5F5E;--teal-l:#E3F1F0;--slate:#3D5A80;--slate-l:#E6ECF4;
+  --ink:#1F2933;--muted:#5B6B7A;--line:#D8E1E8;--soft:#F4F7F8;--bg:#E6EFEF;
+  --mid:#2A9D8F;--vip:#D9662B;--so3:#7E5BAE;
+  --red:#D64545;--red-d:#B42318;--red-l:#FDECEA;--navy:#1F3B57;--navy-l:#E8EEF5;--amber:#E9893A;--amber-l:#FFF4E2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{word-break:keep-all;overflow-wrap:break-word;font-family:'Nanum Gothic','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:16px;overflow:hidden}
+b,strong{font-weight:800}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #F2B705;outline-offset:2px;border-radius:8px}
+
+/* app shell: header + one sheet; only the sheet's content area scrolls */
+.app{height:100vh;height:100dvh;display:flex;flex-direction:column}
+.top{flex:none;background:var(--teal);color:#fff;padding:calc(16px + env(safe-area-inset-top)) 20px 34px}
+.top-in{max-width:600px;margin:0 auto}
+.fest{font-size:13px;font-weight:700;opacity:.9}
+.top h1{font-size:28px;font-weight:800;letter-spacing:-.4px;line-height:1.25;margin:3px 0 4px}
+.when{font-size:14.5px;font-weight:700;opacity:.95}
+.when span{display:inline-block;margin-right:10px}
+.live{display:inline-block;margin-top:8px;background:#fff;color:var(--teal-d);font-weight:800;font-size:13.5px;padding:4px 11px;border-radius:999px}
+.live[hidden]{display:none}
+
+.sheet{flex:1;min-height:0;width:100%;max-width:600px;margin:-20px auto 0;background:#fff;border-radius:22px 22px 0 0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -6px 24px rgba(10,95,94,.18)}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:14px 14px 12px;border-bottom:1px solid var(--line);background:#fff}
+.tab{border:0;border-radius:11px;background:var(--soft);color:var(--muted);font-size:14.5px;font-weight:700;min-height:44px;padding:6px 4px;cursor:pointer;line-height:1.3;word-break:keep-all}
+.tab[aria-selected="true"]{background:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(14,124,123,.28)}
+.tab.t-warn{color:var(--red-d)}
+.tab.t-warn[aria-selected="true"]{color:#fff}
+.panes{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+.pane[hidden]{display:none}
+.pane h2{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+.pane h2.sub{margin-top:22px}
+.lead{color:var(--muted);font-size:15px;margin-bottom:14px}
+.foot{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center;line-height:1.7}
+@media (min-width:640px){
+  .top{padding:28px 24px 40px}.top h1{font-size:34px}
+  .sheet{border-radius:22px;margin-bottom:24px}
+  .tabs{padding:16px 18px 14px}.panes{padding:22px 22px 28px}
+}
+
+/* finder */
+.seg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;background:var(--soft);border-radius:12px;padding:5px;margin-bottom:10px}
+.seg.subj{grid-template-columns:repeat(4,1fr)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:9px 4px;font-size:15px;font-weight:700;color:var(--muted);cursor:pointer;min-height:42px}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--teal-d);box-shadow:0 1px 4px rgba(31,41,51,.16)}
+.grp{margin-top:12px}
+.grp-h{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:7px}
+.grp-h b{font-size:16px;margin-right:6px}
+.grp-h b.p1{color:var(--teal)}.grp-h b.p2{color:var(--slate)}
+.btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.b{border:2px solid transparent;border-radius:10px;min-height:44px;font-size:16px;font-weight:800;color:#fff;cursor:pointer}
+.b.r-mid{background:var(--mid)}.b.r-vip{background:var(--vip)}.b.r-so3{background:var(--so3)}
+.b.out{background:#fff}
+.b.out.r-mid{color:var(--mid);border-color:var(--mid)}.b.out.r-vip{color:var(--vip);border-color:var(--vip)}.b.out.r-so3{color:var(--so3);border-color:var(--so3)}
+.b[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin-top:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+.sw.mid{background:var(--mid)}.sw.vip{background:var(--vip)}.sw.so3{background:var(--so3)}
+.sw.out{background:#fff;border:2px solid var(--muted)}
+.result{margin-top:16px;scroll-margin:12px}
+.empty{background:var(--soft);border:1.5px dashed #C9D5DD;border-radius:14px;padding:16px;text-align:center;color:var(--muted);font-size:15px}
+.res{border-radius:16px;overflow:hidden;border:1.5px solid var(--line);background:#fff}
+.res-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:12px 16px;background:var(--soft);border-bottom:1px solid var(--line)}
+.res-h b{font-size:20px}
+.res-h span{font-size:14px;color:var(--muted);font-weight:700}
+.res-main{display:flex;gap:14px;align-items:center;padding:14px 16px 6px}
+.res-part{flex:none;width:70px;height:70px;border-radius:16px;color:#fff;font-size:25px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.res-part.p1{background:var(--teal)}.res-part.p2{background:var(--slate)}
+.res-times div{font-size:15.5px;color:var(--muted);font-weight:700}
+.res-times b{font-size:21px;color:var(--ink);margin-right:6px;font-variant-numeric:tabular-nums}
+.res-room{margin:10px 16px 14px;border-radius:12px;padding:12px 14px;color:#fff;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.res-room span,.res-room small{font-size:14px;font-weight:700;opacity:.92}
+.res-room b{font-size:23px}
+.res-room.r-mid{background:var(--mid)}.res-room.r-vip{background:var(--vip)}.res-room.r-so3{background:var(--so3)}
+.res-x,.res-t{margin:0 16px 12px;font-size:14.5px;padding:9px 12px;border-radius:10px}
+.res-x{background:#F3F0FA;color:#4B3577}
+.res-t{background:var(--navy-l);color:var(--navy)}
+
+/* must-knows */
+.musts{display:grid;gap:10px}
+.must{display:flex;gap:14px;align-items:flex-start;border-radius:16px;padding:16px}
+.must h3{font-size:18px;font-weight:800;line-height:1.35;margin-bottom:4px}
+.must p{font-size:15px}
+.ico{flex:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.m-prep{background:var(--amber-l);border-left:6px solid var(--amber)}
+.m-prep .ico{background:var(--amber)}.m-prep h3{color:#9A4A12}
+.m-deliv{background:var(--navy);color:#fff}
+.m-deliv .ico{background:#FFD166}.m-deliv p{opacity:.92}
+.m-zero{background:var(--red-l);border:2px solid var(--red)}
+.m-zero .ico{background:var(--red);color:#fff;flex-direction:column;line-height:1}
+.m-zero .ico span{font-size:11px;font-weight:800}.m-zero .ico b{font-size:20px}
+.m-zero h3{color:var(--red-d)}.m-zero p b{color:var(--red-d)}
+
+/* time */
+.ranges-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.ranges-wrap{grid-template-columns:1fr}}
+table.ranges{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:15px}
+.ranges caption{text-align:left;font-weight:800;font-size:15px;padding:0 2px 6px}
+.ranges th,.ranges td{padding:8px;text-align:center;border-bottom:1px solid var(--line)}
+.ranges tbody tr:last-child th,.ranges tbody tr:last-child td{border-bottom:0}
+.ranges thead th{background:var(--teal-l);font-size:14px}
+.ranges thead .p1{color:var(--teal)}.ranges thead .p2{color:var(--slate)}
+.ranges tbody th{text-align:left;font-weight:700;color:var(--muted);font-size:14px;white-space:nowrap;padding-left:12px}
+.ranges td{font-weight:800;font-variant-numeric:tabular-nums}
+.flow{background:var(--soft);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px}
+.flow-h{font-weight:800;font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.flow-h i{font-style:normal;color:#fff;font-size:14px;padding:2px 10px;border-radius:8px}
+.flow.p1 .flow-h i{background:var(--teal)}.flow.p2 .flow-h i{background:var(--slate)}
+.flow ol{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.flow li{text-align:center;background:#fff;border-radius:10px;padding:8px 2px;font-size:13px;color:var(--muted);font-weight:700;line-height:1.35}
+.flow li b{display:block;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums}
+.flow.p1 li:last-child{background:var(--teal-l)}.flow.p2 li:last-child{background:var(--slate-l)}
+@media (max-width:520px){
+  .flow ol{grid-template-columns:1fr;gap:5px}
+  .flow li{display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;font-size:15px}
+  .flow li b{display:inline-block;width:58px;font-size:18px}
+}
+
+/* place */
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.room{border-radius:14px;padding:12px 10px;color:#fff}
+.room b{display:block;font-size:17px;line-height:1.3;word-break:keep-all}
+.room span{font-size:14px;font-weight:700;opacity:.95}
+.room.r-mid{background:var(--mid)}.room.r-vip{background:var(--vip)}.room.r-so3{background:var(--so3)}
+.except{background:var(--soft);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:15px}
+.except h3{font-size:15px;font-weight:800;margin-bottom:6px}
+.ex-day{display:flex;gap:10px;margin:4px 0}
+.ex-day .d{flex:none;min-width:66px;font-weight:800;color:var(--muted)}
+.ex-day ul{list-style:none}
+.ex-day li{white-space:nowrap}
+.t-mid{color:#1D7A6F;font-weight:800}.t-vip{color:#B9501D;font-weight:800}.t-so3{color:#6A479D;font-weight:800}
+.except small{display:block;color:var(--muted);font-size:13.5px;margin-top:6px}
+figure{background:var(--soft);border-radius:14px;padding:10px;margin-top:10px}
+figcaption{font-size:14px;font-weight:800;color:var(--teal);margin:0 4px 6px}
+svg.map{display:block;width:100%;height:auto;font-family:inherit;background:#fff;border-radius:10px}
+.maplegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin:10px 4px 0}
+.maplegend span{display:inline-flex;align-items:center;gap:6px}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:18px;padding:0 4px;border-radius:5px;color:#fff;font-size:11px;font-weight:800}
+.tag.ev{background:#008A63}.tag.es{background:#00A1B9}.tag.gd{background:#C2410C;border-radius:9px;padding:0 7px}
+.sw.gr{background:#E3ECF5;border:1px solid #9DB4CF}
+.steps{list-style:none;counter-reset:s;margin-top:12px;display:grid;gap:8px}
+.steps li{counter-increment:s;background:var(--soft);border-radius:14px;padding:12px 14px 12px 52px;position:relative;font-size:15px}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.steps li b{display:block;font-size:16px}
+
+/* rules */
+.rules{list-style:none;display:grid;gap:8px}
+.rules li{background:var(--soft);border-radius:14px;padding:12px 14px 12px 42px;position:relative;font-size:15px}
+.rules li::before{content:'';position:absolute;left:16px;top:19px;width:11px;height:11px;border-radius:50%;background:var(--teal)}
+.rules li b{display:block;font-size:16px}
+.rules li.hl-red{background:var(--red-l);border:2px solid var(--red)}
+.rules li.hl-red::before{background:var(--red)}.rules li.hl-red b{color:var(--red-d)}
+.rules li.hl-navy{background:var(--navy-l);border:2px solid var(--navy)}
+.rules li.hl-navy::before{background:var(--navy)}.rules li.hl-navy b{color:var(--navy)}
+
+/* teacher */
+.checks{list-style:none;display:grid;gap:8px}
+.checks li{font-size:15px;padding:11px 12px 11px 40px;position:relative;background:var(--soft);border-radius:12px}
+.checks li::before{content:'';position:absolute;left:13px;top:15px;width:15px;height:15px;border:2px solid var(--teal);border-radius:4px;background:#fff}
+.checks li b{color:var(--teal);margin-right:6px}
+.checks li.hl-red{background:var(--red-l)}.checks li.hl-red::before{border-color:var(--red)}.checks li.hl-red b{color:var(--red-d)}
+.checks li.hl-navy{background:var(--navy-l)}.checks li.hl-navy::before{border-color:var(--navy)}.checks li.hl-navy b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="top-in">
+    <p class="fest">제8회 창의융합교육축제 부스 운영 지도교사·학생 안내</p>
+    <h1>점심 식사 안내</h1>
+    <p class="when"><span>10월 29일(목)과 30일(금)</span><span>부스는 2층, 식사는 4층</span></p>
+    <p class="live" id="live" hidden></p>
+  </div></header>
+
+  <main class="sheet">
+    <div class="tabs" role="tablist" aria-label="안내 메뉴">
+      <button class="tab" role="tab" id="tab-find" data-tab="find" aria-controls="pane-find">부스 찾기</button>
+      <button class="tab t-warn" role="tab" id="tab-must" data-tab="must" aria-controls="pane-must">꼭 알아 둘 것</button>
+      <button class="tab" role="tab" id="tab-time" data-tab="time" aria-controls="pane-time">시간</button>
+      <button class="tab" role="tab" id="tab-place" data-tab="place" aria-controls="pane-place">장소·4층 지도</button>
+      <button class="tab" role="tab" id="tab-rules" data-tab="rules" aria-controls="pane-rules">지켜 주세요</button>
+      <button class="tab" role="tab" id="tab-teacher" data-tab="teacher" aria-controls="pane-teacher">지도교사 안내</button>
+    </div>
+
+    <div class="panes" id="panes">
+      <section class="pane" role="tabpanel" id="pane-find" aria-labelledby="tab-find">
+        <h2>우리 부스는 언제, 어디서 먹나요?</h2>
+        <p class="lead">요일과 교과를 고른 뒤 부스 번호를 누르세요.</p>
+        <div class="seg" id="segDay" role="group" aria-label="요일">
+          <button type="button" data-day="목">10/29 목</button><button type="button" data-day="금">10/30 금</button>
+        </div>
+        <div class="seg subj" id="segSubj" role="group" aria-label="교과">
+          <button type="button" data-subj="수학">수학</button><button type="button" data-subj="과학융합">과학융합</button><button type="button" data-subj="정보">정보</button><button type="button" data-subj="환경">환경</button>
+        </div>
+        <div id="grid"></div>
+        <div class="legend">
+          <span><i class="sw mid"></i>중연회장</span><span><i class="sw vip"></i>VIP라운지</span><span><i class="sw so3"></i>소연회장3</span><span><i class="sw out"></i>테두리 칸: 기본 방이 아닌 곳</span>
+        </div>
+        <div id="result" class="result" aria-live="polite"></div>
+      </section>
+
+      <section class="pane" role="tabpanel" id="pane-must" aria-labelledby="tab-must" hidden>
+        <h2>꼭 알아 둘 것</h2>
+        <div class="musts">
+          <div class="must m-prep">
+            <div class="ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
+            <div><h3>점심은 각자 준비해 와요</h3><p>도시락은 따로 나오지 않아요. 행사장에 오기 전에 사 오세요.</p></div>
+          </div>
+          <div class="must m-deliv">
+            <div class="ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F3B57" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5l7-2v18"/><path d="M10 9h4v12"/><path d="M15 15h6"/><path d="M18 12l3 3-3 3"/></svg></div>
+            <div><h3>배달음식은 꼭 행사장 건물 밖에서 받아요</h3><p>건물 안(부스·식사 장소)까지 배달시키지 않아요. 각 부 시작 10분 전까지 받아 두세요.</p></div>
+          </div>
+          <div class="must m-zero">
+            <div class="ico" aria-hidden="true"><span>잔반</span><b>0</b></div>
+            <div><h3>잔반을 남기지 않아요</h3><p><b>먹을 만큼만</b> 준비하고 남김없이 먹어요. 김밥·샌드위치·주먹밥처럼 남지 않는 음식이 좋아요. 남은 음식은 방에 버리지 말고 <b>다시 싸 가요.</b></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pane" role="tabpanel" id="pane-time" aria-labelledby="tab-time" hidden>
+        <h2>1부·2부 나누기</h2>
+        <p class="lead">교과마다 부스 번호 앞쪽이 1부, 뒤쪽이 2부예요. 자기 부 시간에는 부스를 닫고 지도교사와 함께 4층으로 올라가요.</p>
+        <div class="ranges-wrap"><table class="ranges"><caption>10월 29일(목)</caption><thead><tr><th scope="col">교과</th><th scope="col" class="p1">1부</th><th scope="col" class="p2">2부</th></tr></thead><tbody><tr><th scope="row">수학</th><td>01~20</td><td>21~45</td></tr><tr><th scope="row">과학융합</th><td>01~10</td><td>11~20</td></tr><tr><th scope="row">정보</th><td>01~08</td><td>09~15</td></tr><tr><th scope="row">환경</th><td>01</td><td>02</td></tr></tbody></table><table class="ranges"><caption>10월 30일(금)</caption><thead><tr><th scope="col">교과</th><th scope="col" class="p1">1부</th><th scope="col" class="p2">2부</th></tr></thead><tbody><tr><th scope="row">수학</th><td>01~21</td><td>22~45</td></tr><tr><th scope="row">과학융합</th><td>01~10</td><td>11~20</td></tr><tr><th scope="row">정보</th><td>01~08</td><td>09~15</td></tr><tr><th scope="row">환경</th><td>01</td><td>02</td></tr></tbody></table></div>
+        <h2 class="sub">점심시간 흐름</h2>
+        <div class="flow p1"><div class="flow-h"><i>1부</i>11:30 ~ 12:20</div>
+          <ol><li><b>11:30</b>부스 닫고 출발</li><li><b>11:40</b>4층 도착·식사</li><li><b>12:10</b>정리</li><li><b>12:20</b>부스 다시 열기</li></ol></div>
+        <div class="flow p2"><div class="flow-h"><i>2부</i>12:30 ~ 13:20</div>
+          <ol><li><b>12:30</b>부스 닫고 출발</li><li><b>12:40</b>4층 도착·식사</li><li><b>13:10</b>정리</li><li><b>13:20</b>부스 다시 열기</li></ol></div>
+      </section>
+
+      <section class="pane" role="tabpanel" id="pane-place" aria-labelledby="tab-place" hidden>
+        <h2>식사 장소 (4층)</h2>
+        <div class="rooms">
+          <div class="room r-mid"><b>중연회장</b><span>수학·환경</span></div>
+          <div class="room r-vip"><b>VIP라운지</b><span>과학융합</span></div>
+          <div class="room r-so3"><b>소연회장3</b><span>정보</span></div>
+        </div>
+        <div class="except">
+          <h3>기본 방이 아닌 곳에서 먹는 부스</h3>
+          <div class="ex-day"><span class="d">10/29(목)</span><ul><li>과학융합-02 → <span class="t-so3">소연회장3</span></li><li>과학융합-10·13 → <span class="t-mid">중연회장</span></li></ul></div>
+          <div class="ex-day"><span class="d">10/30(금)</span><ul><li>환경-01 → <span class="t-vip">VIP라운지</span></li><li>과학융합-05·07·08·14 → <span class="t-mid">중연회장</span></li></ul></div>
+          <small>같은 날 두 부스를 맡은 선생님과 같은 방에서 먹거나, VIP라운지 자리가 모자라 옮긴 부스예요. 자리가 차면 안내 요원이 중연회장으로 안내해요.</small>
+        </div>
+        <figure><figcaption>4층 지도</figcaption><svg viewBox="38 84 634 284" xmlns="http://www.w3.org/2000/svg" class="map">
+<polygon points="80,102 388,102 388,97 632,97 632,101 665,101 650,252 636,254 636,337 305,337 215,360 50,354 78,250" fill="#F4F9FD" stroke="#01366A" stroke-width="2.6" stroke-linejoin="round"/>
+<rect x="96" y="139" width="113" height="111" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="152.5" y="194.5" font-size="12" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">국제회의장</text>
+<rect x="96" y="260" width="113" height="24" rx="1.5" fill="#E9EDF1" stroke="#B5C0CC" stroke-width="1.2"/>
+<text x="152.5" y="272" font-size="9.5" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">VIP룸</text>
+<polygon points="295,121 345,104 446,104 446,207 295,207" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="370.5" y="160" font-size="12" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">대연회장</text>
+<rect x="367" y="250" width="78" height="45" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="406" y="272.5" font-size="9" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">소연회장1·2</text>
+<rect x="570" y="250" width="47" height="45" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="593.5" y="272.5" font-size="8.5" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">소연회장4</text>
+<rect x="459" y="172" width="119" height="54" rx="1.5" fill="#2A9D8F" stroke="#1D6F66" stroke-width="2"/>
+<text x="518.5" y="191" font-size="13.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">중연회장</text>
+<text x="518.5" y="209" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">수학 · 환경</text>
+<rect x="490" y="283" width="76" height="45" rx="1.5" fill="#D9662B" stroke="#9A4318" stroke-width="2"/>
+<text x="528" y="299" font-size="11.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">VIP라운지</text>
+<text x="528" y="315" font-size="9.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">과학융합</text>
+<rect x="445" y="250" width="39" height="45" rx="1.5" fill="#7E5BAE" stroke="#553B7C" stroke-width="2"/>
+<text x="464.5" y="272.5" font-size="10.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">정보</text>
+<text x="464.5" y="305" font-size="9.5" fill="#7E5BAE" font-weight="700" text-anchor="middle" dominant-baseline="middle">소연회장3</text>
+<rect x="291" y="246" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="302" y="257.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="331" y="246" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="342" y="257.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="291" y="274" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="302" y="285.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="331" y="274" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="342" y="285.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="502" y="230" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="513" y="241.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="502" y="257" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="513" y="268.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="271" y="311" width="22" height="22" rx="3" fill="#00A1B9" stroke="#007F92" stroke-width="1"/>
+<text x="282" y="322.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">ES</text>
+<rect x="529" y="246" width="26" height="15" rx="7.5" fill="#C2410C"/>
+<text x="542" y="254" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">안내</text>
+</svg>
+          <div class="maplegend"><span><span class="tag ev">EV</span>엘리베이터</span><span><span class="tag es">ES</span>에스컬레이터</span><span><span class="tag gd">안내</span>안내 요원</span><span><i class="sw gr"></i>사용 안 함</span></div>
+        </figure>
+        <figure><figcaption>식사 장소 주변 크게 보기</figcaption><svg viewBox="438 160 227 188" xmlns="http://www.w3.org/2000/svg" class="map">
+<polygon points="80,102 388,102 388,97 632,97 632,101 665,101 650,252 636,254 636,337 305,337 215,360 50,354 78,250" fill="#F4F9FD" stroke="#01366A" stroke-width="2.6" stroke-linejoin="round"/>
+<rect x="96" y="139" width="113" height="111" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="152.5" y="194.5" font-size="12" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">국제회의장</text>
+<rect x="96" y="260" width="113" height="24" rx="1.5" fill="#E9EDF1" stroke="#B5C0CC" stroke-width="1.2"/>
+<text x="152.5" y="272" font-size="9.5" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">VIP룸</text>
+<polygon points="295,121 345,104 446,104 446,207 295,207" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="370.5" y="160" font-size="12" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">대연회장</text>
+<rect x="367" y="250" width="78" height="45" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="406" y="272.5" font-size="9" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">소연회장1·2</text>
+<rect x="570" y="250" width="47" height="45" rx="1.5" fill="#E3ECF5" stroke="#9DB4CF" stroke-width="1.2"/>
+<text x="593.5" y="272.5" font-size="8.5" fill="#6B7C93" font-weight="400" text-anchor="middle" dominant-baseline="middle">소연회장4</text>
+<rect x="459" y="172" width="119" height="54" rx="1.5" fill="#2A9D8F" stroke="#1D6F66" stroke-width="2"/>
+<text x="518.5" y="191" font-size="13.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">중연회장</text>
+<text x="518.5" y="209" font-size="10" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">수학 · 환경</text>
+<rect x="490" y="283" width="76" height="45" rx="1.5" fill="#D9662B" stroke="#9A4318" stroke-width="2"/>
+<text x="528" y="299" font-size="11.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">VIP라운지</text>
+<text x="528" y="315" font-size="9.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">과학융합</text>
+<rect x="445" y="250" width="39" height="45" rx="1.5" fill="#7E5BAE" stroke="#553B7C" stroke-width="2"/>
+<text x="464.5" y="272.5" font-size="10.5" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">정보</text>
+<text x="464.5" y="305" font-size="9.5" fill="#7E5BAE" font-weight="700" text-anchor="middle" dominant-baseline="middle">소연회장3</text>
+<rect x="291" y="246" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="302" y="257.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="331" y="246" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="342" y="257.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="291" y="274" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="302" y="285.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="331" y="274" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="342" y="285.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="502" y="230" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="513" y="241.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="502" y="257" width="22" height="22" rx="3" fill="#008A63" stroke="#006B4C" stroke-width="1"/>
+<text x="513" y="268.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">EV</text>
+<rect x="271" y="311" width="22" height="22" rx="3" fill="#00A1B9" stroke="#007F92" stroke-width="1"/>
+<text x="282" y="322.5" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">ES</text>
+<rect x="529" y="246" width="26" height="15" rx="7.5" fill="#C2410C"/>
+<text x="542" y="254" font-size="8" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="middle">안내</text>
+</svg></figure>
+        <ol class="steps">
+          <li><b>2층 부스에서 지도교사와 함께 출발해요.</b>엘리베이터, 계단, 에스컬레이터 중 편한 길로 4층에 올라가요.</li>
+          <li><b>4층에서는 오른쪽 엘리베이터 2대 쪽으로 와요.</b>식사 장소 세 곳이 그 주변에 모여 있어요. 위쪽이 중연회장, 왼쪽이 소연회장3, 아래쪽이 VIP라운지예요.</li>
+          <li><b>안내 요원이 앉을 방을 알려 줘요.</b>자리가 차면 중연회장으로 가요.</li>
+        </ol>
+      </section>
+
+      <section class="pane" role="tabpanel" id="pane-rules" aria-labelledby="tab-rules" hidden>
+        <h2>꼭 지켜 주세요</h2>
+        <ul class="rules">
+          <li class="hl-red"><b>잔반을 남기지 않아요.</b>남은 음식은 방에 버리지 말고 다시 싸 가요.</li>
+          <li class="hl-navy"><b>배달음식은 건물 밖에서 받아요.</b>건물 안(부스·식사 장소)까지 배달시키지 않아요.</li>
+          <li><b>지도교사와 함께 다녀요.</b>올라갈 때도 내려올 때도 같이 움직여요.</li>
+          <li><b>먹은 자리는 깨끗하게.</b>쓰레기는 방 출구 쪽 분리수거 봉투에 나눠 버려요.</li>
+          <li><b>시간을 지켜요.</b>다음 부가 같은 자리에서 먹어요.</li>
+          <li><b>부스에 귀중품을 두고 가지 않아요.</b>노트북·태블릿·휴대폰은 챙겨요.</li>
+        </ul>
+      </section>
+
+      <section class="pane" role="tabpanel" id="pane-teacher" aria-labelledby="tab-teacher" hidden>
+        <h2>지도교사 안내</h2>
+        <p class="lead">선생님께 부탁드려요.</p>
+        <ul class="checks">
+          <li class="hl-navy"><b>배달음식</b>꼭 행사장 건물 밖에서 받아 주세요. 건물 안(부스·식사 장소)까지 배달시키지 않게 하고, 각 부 시작 10분 전까지 받아 두세요.</li>
+          <li><b>출발 전</b>학생 수를 확인하고 부스에 ‘다시 여는 시간’ 안내판을 세워 주세요. 노트북·태블릿 같은 귀중품은 들고 가요.</li>
+          <li><b>이동</b>학생들과 함께 4층으로 올라가 주세요. 엘리베이터, 계단, 에스컬레이터 모두 괜찮아요.</li>
+          <li><b>식사</b>정해진 방에서 부스 학생들과 모여 앉아 주세요. 자리가 차면 중연회장으로 가요.</li>
+          <li class="hl-red"><b>잔반 0</b>학생들이 잔반을 남기지 않게 살펴 주세요. 남은 음식은 방에 버리지 말고 다시 싸 가게 해 주세요.</li>
+          <li><b>정리·복귀</b>학생 자리와 쓰레기 정리를 확인한 뒤 함께 내려와 다시 열 시각에 부스를 열어 주세요.</li>
+          <li><b>두 부스를 맡은 경우</b>두 부스가 같은 부·같은 방이 되게 맞췄어요. 목요일 과학융합-02·정보-05는 1부 소연회장3, 금요일 과학융합-01·환경-01은 1부 VIP라운지예요.</li>
+          <li><b>두 부스 겸임 학생(금)</b>수학-17·과학융합-07 학생은 1부 중연회장, 수학-19·과학융합-13 학생은 1부에 수학-19 팀과 함께 먹어요.</li>
+        </ul>
+      </section>
+
+      <p class="foot">제8회 창의융합교육축제 부스 운영 지도교사·학생 점심 안내<br>학생은 궁금한 점을 지도교사 선생님께 물어보세요.</p>
+    </div>
+  </main>
+</div>
+<script>
+const DATA={"목": {"수학": [{"n": 1, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 3, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 6, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 8, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 9, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 10, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 11, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 12, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 13, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 14, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 15, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 16, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 17, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 18, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 19, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 20, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 21, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 22, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 23, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 24, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 25, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 26, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 27, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 28, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 29, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 30, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 31, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 32, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 33, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 34, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 35, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 36, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 37, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 38, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 39, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 40, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 41, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 42, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 43, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 44, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 45, "p": "2부", "r": "중연회장", "x": "", "t": ""}], "과학융합": [{"n": 1, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "소연회장3", "x": "같은 날 두 부스를 맡은 선생님과 같은 방에서 먹어요.", "t": ""}, {"n": 3, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 6, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 8, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 9, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 10, "p": "1부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": ""}, {"n": 11, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 12, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 13, "p": "2부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": ""}, {"n": 14, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 15, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 16, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 17, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 18, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 19, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 20, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}], "정보": [{"n": 1, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 3, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 6, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 8, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 9, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 10, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 11, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 12, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 13, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 14, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 15, "p": "2부", "r": "소연회장3", "x": "", "t": ""}], "환경": [{"n": 1, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 2, "p": "2부", "r": "중연회장", "x": "", "t": ""}]}, "금": {"수학": [{"n": 1, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 3, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 6, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 8, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 9, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 10, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 11, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 12, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 13, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 14, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 15, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 16, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 17, "p": "1부", "r": "중연회장", "x": "", "t": "과학융합-07도 함께 맡은 학생 2명은 이 부스 팀과 1부에 먹어요."}, {"n": 18, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 19, "p": "1부", "r": "중연회장", "x": "", "t": "과학융합-13도 함께 맡은 학생 2명은 이 부스 팀과 1부에 먹어요."}, {"n": 20, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 21, "p": "1부", "r": "중연회장", "x": "", "t": ""}, {"n": 22, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 23, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 24, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 25, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 26, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 27, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 28, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 29, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 30, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 31, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 32, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 33, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 34, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 35, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 36, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 37, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 38, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 39, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 40, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 41, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 42, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 43, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 44, "p": "2부", "r": "중연회장", "x": "", "t": ""}, {"n": 45, "p": "2부", "r": "중연회장", "x": "", "t": ""}], "과학융합": [{"n": 1, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 3, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": ""}, {"n": 6, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": "수학-17도 함께 맡은 학생 2명은 1부에 수학-17 팀과 먹어요."}, {"n": 8, "p": "1부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": ""}, {"n": 9, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 10, "p": "1부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 11, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 12, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 13, "p": "2부", "r": "VIP라운지", "x": "", "t": "수학-19도 함께 맡은 학생 2명은 1부에 수학-19 팀과 중연회장에서 먹어요."}, {"n": 14, "p": "2부", "r": "중연회장", "x": "VIP라운지 자리가 모자라 중연회장에서 먹어요.", "t": ""}, {"n": 15, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 16, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 17, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 18, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 19, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}, {"n": 20, "p": "2부", "r": "VIP라운지", "x": "", "t": ""}], "정보": [{"n": 1, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 2, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 3, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 4, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 5, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 6, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 7, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 8, "p": "1부", "r": "소연회장3", "x": "", "t": ""}, {"n": 9, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 10, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 11, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 12, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 13, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 14, "p": "2부", "r": "소연회장3", "x": "", "t": ""}, {"n": 15, "p": "2부", "r": "소연회장3", "x": "", "t": ""}], "환경": [{"n": 1, "p": "1부", "r": "VIP라운지", "x": "같은 날 두 부스를 맡은 선생님과 같은 방에서 먹어요.", "t": ""}, {"n": 2, "p": "2부", "r": "중연회장", "x": "", "t": ""}]}};
+const CLS={'중연회장':'r-mid','VIP라운지':'r-vip','소연회장3':'r-so3'};
+const TIME={'1부':['11:30','12:20'],'2부':['12:30','13:20']};
+const DAYNAME={'목':'10월 29일(목)','금':'10월 30일(금)'};
+const st={day:'목',subj:'수학',n:null};
+const today=new Date();
+const isDay=d=>today.getFullYear()===2026&&today.getMonth()===9&&today.getDate()===d;
+if(isDay(30))st.day='금';
+const pad=n=>String(n).padStart(2,'0');
+const panes=document.getElementById('panes');
+
+/* tabs */
+const tabs=[...document.querySelectorAll('.tab')];
+function openTab(name,focus){
+  tabs.forEach(t=>{const on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden=!on;if(on&&focus)t.focus();});
+  panes.scrollTop=0;
+  setHash(name);
+}
+/* the address shows the open tab (#time, #teacher …); preview windows such as about:srcdoc can't change it, so skip there */
+function setHash(name){
+  if(!/^(https?|file):$/.test(location.protocol))return;
+  try{history.replaceState(null,'',name==='find'?location.pathname+location.search:'#'+name);}catch(e){}
+}
+document.querySelector('.tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(t)openTab(t.dataset.tab);});
+document.querySelector('.tabs').addEventListener('keydown',e=>{
+  const i=tabs.indexOf(document.activeElement);if(i<0)return;let j=null;
+  if(e.key==='ArrowRight')j=(i+1)%tabs.length;else if(e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+  else if(e.key==='Home')j=0;else if(e.key==='End')j=tabs.length-1;
+  if(j!==null){e.preventDefault();openTab(tabs[j].dataset.tab,true);}
+});
+
+/* finder */
+function setPressed(box,attr,val){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===val)));}
+function renderGrid(){
+  setPressed(document.getElementById('segDay'),'day',st.day);
+  setPressed(document.getElementById('segSubj'),'subj',st.subj);
+  const list=DATA[st.day][st.subj];let h='';
+  for(const p of ['1부','2부']){
+    const items=list.filter(x=>x.p===p);if(!items.length)continue;
+    h+=`<div class="grp"><div class="grp-h"><b class="${p==='1부'?'p1':'p2'}">${p}</b>${TIME[p][0]} ~ ${TIME[p][1]}</div><div class="btns">`;
+    for(const x of items)h+=`<button type="button" class="b ${CLS[x.r]}${x.x?' out':''}" data-n="${x.n}" aria-pressed="${st.n===x.n}" aria-label="${st.subj}-${pad(x.n)}">${pad(x.n)}</button>`;
+    h+='</div></div>';
+  }
+  document.getElementById('grid').innerHTML=h;
+}
+function renderResult(){
+  const box=document.getElementById('result');
+  const x=st.n===null?null:DATA[st.day][st.subj].find(v=>v.n===st.n);
+  if(!x){box.innerHTML='<p class="empty">부스 번호를 누르면 몇 부에 어디서 먹는지 여기 나와요.</p>';return;}
+  box.innerHTML=`<div class="res"><div class="res-h"><b>${st.subj}-${pad(x.n)}</b><span>${DAYNAME[st.day]}</span></div>
+  <div class="res-main"><div class="res-part ${x.p==='1부'?'p1':'p2'}">${x.p}</div><div class="res-times"><div><b>${TIME[x.p][0]}</b>부스 닫고 4층으로</div><div><b>${TIME[x.p][1]}</b>부스 다시 열기</div></div></div>
+  <div class="res-room ${CLS[x.r]}"><span>식사 장소</span><b>${x.r}</b><small>4층</small></div>
+  ${x.x?`<p class="res-x">${x.x}</p>`:''}${x.t?`<p class="res-t">${x.t}</p>`:''}</div>`;
+}
+document.getElementById('segDay').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.day=b.dataset.day;st.n=null;renderGrid();renderResult();});
+document.getElementById('segSubj').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.subj=b.dataset.subj;st.n=null;renderGrid();renderResult();});
+document.getElementById('grid').addEventListener('click',e=>{const b=e.target.closest('button.b');if(!b)return;st.n=Number(b.dataset.n);renderGrid();renderResult();
+  const r=document.getElementById('result').getBoundingClientRect(),p=panes.getBoundingClientRect();
+  if(r.bottom>p.bottom){const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;panes.scrollBy({top:r.bottom-p.bottom+16,behavior:reduce?'auto':'smooth'});}});
+
+/* today's status (event days only) */
+(function(){
+  if(!(isDay(29)||isDay(30)))return;
+  const m=today.getHours()*60+today.getMinutes();let s;
+  if(m<690)s='오늘 1부 점심은 11:30에 시작해요';else if(m<740)s='지금은 1부 점심시간이에요, 12:20에 다시 열어요';
+  else if(m<750)s='12:30부터 2부 점심시간이에요';else if(m<800)s='지금은 2부 점심시간이에요, 13:20에 다시 열어요';else s='오늘 점심시간은 끝났어요';
+  const el=document.getElementById('live');el.textContent=s;el.hidden=false;
+})();
+
+renderGrid();renderResult();
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(tabs.some(t=>t.dataset.tab===h))openTab(h);});
+const start=location.hash.slice(1);
+openTab(tabs.some(t=>t.dataset.tab===start)?start:'find');
+</script>
+</body>
+</html>
